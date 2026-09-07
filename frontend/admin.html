@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Add Project</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <script>
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if (isLoggedIn !== "true") {
+        window.location.href = "login.html";
+    }
+</script>
+
+    <section class="admin-section">
+
+        <div class="admin-container">
+
+            <p class="section-title">Admin Panel</p>
+
+            <h1>Add New Project</h1>
+
+            <form id="project-form">
+
+                <div class="form-group">
+
+                    <label for="title">
+                        Project Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Enter project title"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Project Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        rows="5"
+                        placeholder="Enter project description"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="technologies">
+                        Technologies
+                    </label>
+
+                    <input
+                        type="text"
+                        id="technologies"
+                        placeholder="HTML, CSS, JavaScript"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="github_link">
+                        GitHub Link
+                    </label>
+
+                    <input
+                        type="url"
+                        id="github_link"
+                        placeholder="https://github.com/..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="live_link">
+                        Live Demo Link
+                    </label>
+
+                    <input
+                        type="url"
+                        id="live_link"
+                        placeholder="https://..."
+                    >
+
+                </div>
+                <div class="form-group">
+    <label for="image_url">Project Image URL</label>
+
+    <input
+        type="url"
+        id="image_url"
+        placeholder="https://example.com/image.jpg"
+    >
+</div>
+
+
+                <button
+                    type="submit"
+                    class="send-btn"
+                >
+                    Add Project
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+    
+<h2 class="admin-project-title">Existing Projects</h2>
+
+<div id="admin-projects">
+    <!-- Projects will appear here -->
+</div>
+<h2 class="admin-project-title">Contact Messages</h2>
+
+<div id="admin-messages">
+    <!-- Messages will appear here -->
+</div>
+
+    <script src="admin.js"></script>
+<button
+    onclick="logout()"
+    class="send-btn"
+>
+    Logout
+</button>
+</body>
+
+</html>
