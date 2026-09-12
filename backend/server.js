@@ -299,8 +299,8 @@ app.put("/api/projects/:id", (req, res) => {
 app.post("/api/login", (req, res) => {
     const { username, password } = req.body;
 
-    const ADMIN_USERNAME = "admin";
-    const ADMIN_PASSWORD = "admin123";
+    const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
     if (
         username === ADMIN_USERNAME &&
