@@ -1,5 +1,36 @@
 // Admin Project Form
+function getAuthHeaders() {
+    const token = localStorage.getItem("adminToken");
 
+    if (!token) {
+        window.location.href = "login.html";
+        return {};
+    }
+
+    return {
+        "Authorization": `Bearer ${token}`
+    };
+}
+const originalFetch = window.fetch;
+
+window.fetch = function(url, options = {}) {
+
+    const token = localStorage.getItem("adminToken");
+
+    if (!token) {
+        window.location.href = "login.html";
+        return Promise.reject(new Error("Login required"));
+    }
+
+    const headers = new Headers(options.headers || {});
+
+    headers.set("Authorization", `Bearer ${token}`);
+
+    return originalFetch(url, {
+        ...options,
+        headers: headers
+    });
+};
 const projectForm = document.querySelector("#project-form");
 
 projectForm.addEventListener("submit", async (event) => {

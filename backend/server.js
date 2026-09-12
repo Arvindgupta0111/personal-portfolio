@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-
+const jwt = require("jsonwebtoken");
 const app = express();
 app.use(cors({
     origin: [
@@ -18,6 +18,35 @@ app.use(express.json());
 
 
 const PORT = process.env.PORT || 5000;
+// Authentication Middleware
+
+function authenticateToken(req, res, next) {
+
+    const authHeader = req.headers["authorization"];
+
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Access denied. Login required."
+        });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+
+        if (err) {
+            return res.status(403).json({
+                success: false,
+                message: "Invalid or expired token."
+            });
+        }
+
+        req.user = user;
+
+        next();
+    });
+}
 
 
 // MySQL Connection
@@ -134,7 +163,7 @@ app.get("/api/projects", (req, res) => {
 });
 // Add New Project
 
-app.post("/api/projects", (req, res) => {
+app.post("/api/projects", authenticateToken, (req, res) => {
 
     const {
         title,
@@ -203,7 +232,7 @@ app.post("/api/projects", (req, res) => {
 });
 // Delete Project
 
-app.delete("/api/projects/:id", (req, res) => {
+app.delete("/api/projects/:id", authenticateToken, (req, res) => {
 
     const projectId = req.params.id;
 
@@ -232,7 +261,7 @@ app.delete("/api/projects/:id", (req, res) => {
 });
 // Update Project
 
-app.put("/api/projects/:id", (req, res) => {
+app.put("/api/projects/:id", authenticateToken, (req, res) => {
 
     const projectId = req.params.id;
 
@@ -303,21 +332,28 @@ app.post("/api/login", (req, res) => {
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
     if (
-        username === ADMIN_USERNAME &&
-        password === ADMIN_PASSWORD
+        username !== ADMIN_USERNAME ||
+        password !== ADMIN_PASSWORD
     ) {
-        return res.json({
-            success: true,
-            message: "Login successful!"
+        return res.status(401).json({
+            success: false,
+            message: "Invalid username or password."
         });
     }
 
-    res.status(401).json({
-        success: false,
-        message: "Invalid username or password."
+    const token = jwt.sign(
+        { username: ADMIN_USERNAME },
+        process.env.JWT_SECRET,
+        { expiresIn: "2h" }
+    );
+
+    res.json({
+        success: true,
+        message: "Login successful!",
+        token: token
     });
 });
-app.get("/api/messages", (req, res) => {
+app.get("/api/messages", authenticateToken, (req, res) => {
     const sql = "SELECT * FROM messages ORDER BY created_at DESC";
 
     db.query(sql, (err, results) => {
@@ -336,7 +372,7 @@ app.get("/api/messages", (req, res) => {
         });
     });
 });
-app.delete("/api/messages/:id", (req, res) => {
+app.delete("/api/messages/:id", authenticateToken, (req, res) => {
     const messageId = req.params.id;
 
     const sql = "DELETE FROM messages WHERE id = ?";

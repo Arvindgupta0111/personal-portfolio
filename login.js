@@ -24,8 +24,7 @@ loginForm.addEventListener("submit", async (event) => {
         const data = await response.json();
 
         if (data.success) {
-            localStorage.setItem("adminLoggedIn", "true");
-
+            localStorage.setItem("adminToken", data.token);
             alert("Login successful! ✅");
 
             window.location.href = "admin.html";
