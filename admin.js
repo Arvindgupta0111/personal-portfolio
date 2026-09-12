@@ -11,6 +11,11 @@ function getAuthHeaders() {
         "Authorization": `Bearer ${token}`
     };
 }
+const adminToken = localStorage.getItem("adminToken");
+
+if (!adminToken) {
+    window.location.href = "login.html";
+}
 const originalFetch = window.fetch;
 
 window.fetch = function(url, options = {}) {
@@ -27,9 +32,18 @@ window.fetch = function(url, options = {}) {
     headers.set("Authorization", `Bearer ${token}`);
 
     return originalFetch(url, {
-        ...options,
-        headers: headers
-    });
+    ...options,
+    headers: headers
+}).then(response => {
+
+    if (response.status === 401 || response.status === 403) {
+        localStorage.removeItem("adminToken");
+        window.location.href = "login.html";
+        return Promise.reject(new Error("Session expired"));
+    }
+
+    return response;
+});
 };
 const projectForm = document.querySelector("#project-form");
 
