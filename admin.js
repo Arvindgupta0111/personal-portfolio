@@ -21,7 +21,7 @@ projectForm.addEventListener("submit", async (event) => {
         // Send data to backend
 
         const response = await fetch(
-            "http://localhost:5000/api/projects",
+            "https://personal-portfolio-backend-9hbs.onrender.com/api/projects",
             {
                 method: "POST",
 
@@ -75,7 +75,7 @@ async function loadAdminProjects() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/projects"
+            "https://personal-portfolio-backend-9hbs.onrender.com/api/projects"
         );
 
         const data = await response.json();
@@ -151,7 +151,7 @@ async function deleteProject(id) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/projects/${id}`,
+            `https://personal-portfolio-backend-9hbs.onrender.com/api/projects/${id}`,
             {
                 method: "DELETE"
             }
@@ -205,7 +205,7 @@ async function editProject(id) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/projects/${id}`,
+            `https://personal-portfolio-backend-9hbs.onrender.com/api/projects/${id}`,
             {
                 method: "PUT",
                 headers: {
@@ -242,7 +242,7 @@ async function loadMessages() {
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/messages"
+            "https://personal-portfolio-backend-9hbs.onrender.com/api/messages"
         );
 
         const data = await response.json();
@@ -319,7 +319,7 @@ async function deleteMessage(id) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/messages/${id}`,
+            `https://personal-portfolio-backend-9hbs.onrender.com/api/messages/${id}`,
             {
                 method: "DELETE"
             }
@@ -350,7 +350,7 @@ async function deleteMessage(id) {
 
     try {
         const response = await fetch(
-            `http://localhost:5000/api/messages/${id}`,
+            `https://personal-portfolio-backend-9hbs.onrender.com/api/messages/${id}`,
             {
                 method: "DELETE"
             }

@@ -19,7 +19,7 @@ contactForm.addEventListener("submit", async (event) => {
 
         // Backend API को data भेजना
 
-        const response = await fetch("http://localhost:5000/api/messages", {
+        const response = await fetch("https://personal-portfolio-backend-9hbs.onrender.com/api/messages", {
 
             method: "POST",
 
@@ -72,7 +72,7 @@ async function loadProjects() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/projects"
+            "https://personal-portfolio-backend-9hbs.onrender.com/api/projects"
         );
 
         const data = await response.json();
@@ -177,7 +177,7 @@ async function loadProjects() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/projects"
+            "https://personal-portfolio-backend-9hbs.onrender.com/api/projects"
         );
 
         const data = await response.json();
